@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 import 'database/DatabseHelper.dart';
 import 'database/WordModel.dart';
@@ -7,30 +10,104 @@ class MyHomePage extends StatefulWidget {
   final List<Word> word;
   final DatabaseHelper databaseHelper;
 
-  const MyHomePage({Key key,  this.word, this.databaseHelper})
-      : super(key: key);
+  const MyHomePage({Key key, this.word, this.databaseHelper}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
+enum TtsState { playing, stopped }
 
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController controller = TextEditingController();
 
   List<Word> wordList = new List();
 
+  FlutterTts flutterTts;
+  dynamic languages;
+  dynamic voices;
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+
+  get isStopped => ttsState == TtsState.stopped;
+
   @override
   void initState() {
     super.initState();
     _copyList();
+    initTts();
   }
 
-  _copyList() async{
+  initTts() {
+    flutterTts = FlutterTts();
+
+    if (Platform.isAndroid) {
+      flutterTts.ttsInitHandler(() {
+        _getLanguages();
+        _getVoices();
+      });
+    } else if (Platform.isIOS) {
+      _getLanguages();
+      _getVoices();
+    }
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        ttsState = TtsState.playing;
+      });
+    });
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  _copyList() async {
     setState(() {
       wordList = widget.word;
     });
   }
 
+  Future _getLanguages() async {
+    languages = await flutterTts.setLanguage("en-US");
+    if (languages != null) setState(() => languages);
+    await flutterTts.isLanguageAvailable("en-US");
+  }
+
+  Future _getVoices() async {
+    voices = await flutterTts.getVoices;
+    if (voices != null) setState(() => voices);
+  }
+
+  Future _speak(String _test) async {
+    if (_test != null) {
+      if (_test.isNotEmpty) {
+        var result = await flutterTts.speak(_test);
+        if (result == 1) setState(() => ttsState = TtsState.playing);
+      }
+    }
+  }
+
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = TtsState.stopped);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    flutterTts.stop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              onChanged: (value) {
-
-              },
-              onEditingComplete: (){
+              onChanged: (value) {},
+              onEditingComplete: () {
                 _changeList(controller.value.text);
               },
               controller: controller,
@@ -62,7 +137,6 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ListView.builder(
                   itemCount: wordList.length,
                   itemBuilder: (BuildContext context, int index) {
-
                     print(wordList.length);
 
                     return Card(
@@ -70,20 +144,33 @@ class _MyHomePageState extends State<MyHomePage> {
                         padding: EdgeInsets.all(10),
                         child: Row(
                           children: <Widget>[
-                            Text(
-                              wordList[index].engWord,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400, fontSize: 20),
-                            ),
-                            Text(
-                              getKorText(wordList[index].korWord),
-                              style: TextStyle(fontSize: 20),
+                            GestureDetector(
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    wordList[index].engWord,
+                                    style: TextStyle(
+                                      textBaseline: TextBaseline.alphabetic,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 22),
+                                  ),
+                                  Text(
+                                    wordList[index].korWord,
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                _speak(wordList[index].engWord);
+                              },
                             ),
                             GestureDetector(
-                              child: Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                                size: 30,
+                              child: Container(
+                                child: Padding(padding: EdgeInsets.all(10) , child: Text(
+                                  '즐겨찾기 추가',
+                                  style: TextStyle(color: Colors.white),
+                                ),),
+                                color: Colors.brown,
                               ),
                               onTap: () {
                                 Word word = new Word(
@@ -109,13 +196,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _changeList(String value) async{
+  void _changeList(String value) async {
     print(value);
     setState(() {
-      if(value.length == 0){
-        wordList= new List();
+      if (value.length == 0) {
+        wordList = new List();
         wordList = widget.word;
-      }else {
+      } else {
         wordList = new List();
         for (Word i in widget.word) {
           if (i.engWord.contains(value)) {
@@ -129,9 +216,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   String getKorText(String korWord) {
-    if(korWord.length > 10){
-      return korWord.substring(0 , 9) + "...";
-    }else{
+    if (korWord.length > 10) {
+      return korWord.substring(0, 9) + "...";
+    } else {
       return korWord;
     }
   }

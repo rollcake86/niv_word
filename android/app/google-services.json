@@ -1,0 +1,136 @@
+{
+  "project_info": {
+    "project_number": "376361176913",
+    "firebase_url": "https://holy-app.firebaseio.com",
+    "project_id": "holy-app",
+    "storage_bucket": "holy-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376361176913:android:b10e345ce2e83eb1",
+        "android_client_info": {
+          "package_name": "com.kcn.biblememorize"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376361176913-78ga79sfu03j0tlf8cq3a0ufejvi1g1j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kcn.biblememorize",
+            "certificate_hash": "85355bba4fdd9c87ea1e4aa9b7e435121e7e9555"
+          }
+        },
+        {
+          "client_id": "376361176913-fg8nbq7s9hrsqvtatamh9rbsib4nkmv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBix_Ptekp-RF4kYt5-85-Y6qncUN8HXFU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376361176913-fg8nbq7s9hrsqvtatamh9rbsib4nkmv3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "376361176913-vfql987q9rmdh8vtbuhitft6c0p4lhds.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rollcke.bombi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376361176913:android:cecb6bc421e84eec",
+        "android_client_info": {
+          "package_name": "com.rollcake.niv_word"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376361176913-fg8nbq7s9hrsqvtatamh9rbsib4nkmv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBix_Ptekp-RF4kYt5-85-Y6qncUN8HXFU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376361176913-fg8nbq7s9hrsqvtatamh9rbsib4nkmv3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "376361176913-vfql987q9rmdh8vtbuhitft6c0p4lhds.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rollcke.bombi"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376361176913:android:b6e9c1a82b4dd50e",
+        "android_client_info": {
+          "package_name": "rollcake.kr.co.wordsearch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376361176913-1im6rrlrjn4nclsrhv661ebu0sas9va6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rollcake.kr.co.wordsearch",
+            "certificate_hash": "1e395b873726e26f4362be4ba504b498c7f3d628"
+          }
+        },
+        {
+          "client_id": "376361176913-fg8nbq7s9hrsqvtatamh9rbsib4nkmv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBix_Ptekp-RF4kYt5-85-Y6qncUN8HXFU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376361176913-fg8nbq7s9hrsqvtatamh9rbsib4nkmv3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "376361176913-vfql987q9rmdh8vtbuhitft6c0p4lhds.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rollcke.bombi"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-4874780746681507~6253645877"
+    }
+  ],
+  "configuration_version": "1"
+}

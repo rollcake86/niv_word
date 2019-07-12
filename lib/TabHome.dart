@@ -5,6 +5,7 @@ import 'package:niv_word/QuizPage.dart';
 
 import 'database/DatabseHelper.dart';
 import 'database/WordModel.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 class bottomHome extends StatefulWidget {
   @override
@@ -17,12 +18,29 @@ class _bottomApp extends State<bottomHome> with SingleTickerProviderStateMixin {
   TabController tabController;
   DatabaseHelper databaseHelper = new DatabaseHelper();
 
+
+  BannerAd _bannerAd;
+
+  BannerAd createBannerAd() {
+    return BannerAd(
+      adUnitId: BannerAd.testAdUnitId,
+      size: AdSize.banner,
+      listener: (MobileAdEvent event) {
+        print("BannerAd event $event");
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
+    FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
+    _bannerAd = createBannerAd()..load();
     tabController = new TabController(length: 3, vsync: this);
     _loadData();
     databaseHelper.createDB();
+
+    _showAD();
   }
 
   var array;
@@ -40,8 +58,16 @@ class _bottomApp extends State<bottomHome> with SingleTickerProviderStateMixin {
     });
   }
 
+  void _showAD(){
+    _bannerAd ??= createBannerAd();
+    _bannerAd
+      ..load()
+      ..show(anchorOffset: 30, anchorType: AnchorType.top);
+  }
+
   @override
   void dispose() {
+    _bannerAd.dispose();
     tabController.dispose();
     super.dispose();
   }
@@ -51,7 +77,7 @@ class _bottomApp extends State<bottomHome> with SingleTickerProviderStateMixin {
     // TODO: implement build
     return new Scaffold(
       appBar: AppBar(
-        title: Text('Niv Word'),
+        title: Text(''),
       ),
       body: new TabBarView(
         children: <Widget>[
